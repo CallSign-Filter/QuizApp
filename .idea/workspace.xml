@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c25de95-d886-4e6f-8486-f50463dedb6a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/notes.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/script.js" afterDir="false" />
     </list>
@@ -41,15 +38,15 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="33" />
-          <entry key="js" value="10128" />
+          <entry key="html" value="65" />
+          <entry key="js" value="11793" />
           <entry key="txt" value="123" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="38" />
-          <entry key="JavaScript" value="10123" />
+          <entry key="HTML" value="71" />
+          <entry key="JavaScript" value="11787" />
           <entry key="PLAIN_TEXT" value="123" />
         </counts>
       </usages-collector>
@@ -62,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="126" column="28" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="39" />
+            <state relative-caret-position="375">
+              <caret line="68" column="27" lean-forward="true" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="39" />
               <folding>
                 <element signature="n#style#0;n#section#1;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#section#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -76,8 +73,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="204" column="56" selection-start-line="204" selection-start-column="56" selection-end-line="204" selection-end-column="56" />
+            <state relative-caret-position="596">
+              <caret line="506" column="43" selection-start-line="506" selection-start-column="43" selection-end-line="506" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -99,6 +96,13 @@
       <find>admin</find>
       <find>===</find>
       <find>var next</find>
+      <find>var nextQW</find>
+      <find>logo</find>
+      <find>inserte</find>
+      <find>question-</find>
+      <find>getId</find>
+      <find>person</find>
+      <find>setPersonDat</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -174,12 +178,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1541609918824</updated>
-      <workItem from="1541609921614" duration="22933000" />
+      <workItem from="1541609921614" duration="30302000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22933000" />
+    <option name="totallyTimeSpent" value="30302000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1913" y="17" width="1080" height="1013" extended-state="0" />
@@ -220,8 +224,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="126" column="28" selection-start-line="126" selection-start-column="17" selection-end-line="126" selection-end-column="39" />
+        <state relative-caret-position="375">
+          <caret line="68" column="27" lean-forward="true" selection-start-line="68" selection-start-column="22" selection-end-line="68" selection-end-column="39" />
           <folding>
             <element signature="n#style#0;n#section#1;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#section#2;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -232,8 +236,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="204" column="56" selection-start-line="204" selection-start-column="56" selection-end-line="204" selection-end-column="56" />
+        <state relative-caret-position="596">
+          <caret line="506" column="43" selection-start-line="506" selection-start-column="43" selection-end-line="506" selection-end-column="43" />
         </state>
       </provider>
     </entry>

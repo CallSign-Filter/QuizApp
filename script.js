@@ -46,7 +46,7 @@ var quizController = (function() {
 
     var adminFullName = ['Brandon', 'Hessler'];
 
-    var personLocalSotrage = {
+    var personLocalStorage = {
         setPersonData: function(newPersonData) {
             localStorage.setItem('personData', JSON.stringify(newPersonData))
         },
@@ -58,8 +58,8 @@ var quizController = (function() {
         }
     };
 
-    if (personLocalSotrage.getPersonData() === null) {
-        personLocalSotrage.setPersonData([]);
+    if (personLocalStorage.getPersonData() === null) {
+        personLocalStorage.setPersonData([]);
     }
 
 
@@ -71,6 +71,8 @@ var quizController = (function() {
         getQuizProgress: quizProgress,
 
         getQuestionLocalStorage: storedQuestions,
+
+        getPersonLocalStorage: personLocalStorage,
 
         addQuestionOnLocalStorage: function(newQuestionText, options) {
             var optionsArr, correctAnswer, questionId, newQuestion, getStoredQuestions, isChecked;
@@ -135,6 +137,7 @@ var quizController = (function() {
 
         checkAnswer: function(answer) {
             if (storedQuestions.getQuestionCollection()[quizProgress.questionIndex].correctAnswer === answer.textContent) {
+                currentPersonData.score++;
                 return true;
             } else {
                 return false;
@@ -148,19 +151,17 @@ var quizController = (function() {
         addPerson: function() {
             var newPerson, personId, personData;
 
-            if(personLocalSotrage.getPersonData().length > 0) {
-                personId = personLocalSotrage.getPersonData()[personLocalSotrage.getPersonData().length -1].id + 1
+            if(personLocalStorage.getPersonData().length > 0) {
+                personId = personLocalStorage.getPersonData()[personLocalStorage.getPersonData().length -1].id + 1
             } else {
                 personId = 0;
             }
 
             newPerson = new Person(personId, currentPersonData.fullname[0], currentPersonData.fullname[1], currentPersonData.score);
 
-            personData = personLocalSotrage.getPersonData();
+            personData = personLocalStorage.getPersonData();
             personData.push(newPerson);
-            personLocalSotrage.setPersonData(personData);
-
-            console.log(newPerson);
+            personLocalStorage.setPersonData(personData);
         },
 
         getCurrentPersonData: currentPersonData,
@@ -182,7 +183,7 @@ var UIController = (function() {
         lastNameInput: document.getElementById('lastname'),
 
         //***** ADMIN PANEL ELEMENTS*******
-        adminPanelContainer: document.querySelector('.admin-panel-container'),
+        adminPanelSection: document.querySelector('.admin-panel-container'),
         questionInsertBtn: document.getElementById("question-insert-btn"),
         newQuestionText: document.getElementById("new-question-text"),
         adminOptions: document.querySelectorAll(".admin-option"),
@@ -192,8 +193,12 @@ var UIController = (function() {
         questionDeleteBtn: document.getElementById('question-delete-btn'),
         questionsClearBtn: document.getElementById('questions-clear-btn'),
 
+        resultsPanel: document.querySelector(".results-list-container"),
+        resultsListWrapper: document.querySelector(".results-list-wrapper"),
+        clearResults: document.getElementById("results-clear-btn"),
+
         //********Quiz section**************
-        quizPageContainer: document.querySelector('.quiz-container'),
+        quizPageSection: document.querySelector('.quiz-container'),
         askedQuestionText: document.getElementById('asked-question-text'),
         quizOptionsWrapper: document.querySelector('.quiz-options-wrapper'),
         progressBar: document.querySelector('progress'),
@@ -205,7 +210,9 @@ var UIController = (function() {
         instantIcon: document.getElementById("emotion"),
 
         //************FINAL RESULTS PAGE************
-        resultsPageContainer: document.querySelector('.final-result-container')
+        resultsPageContainer: document.querySelector('.final-result-container'),
+        resultText: document.getElementById("final-score-text")
+
     };
 
     return {
@@ -412,7 +419,7 @@ var UIController = (function() {
             var index = answerResult ? 1 : 0;
 
             twoOptions = {
-               instantAnswerText: ['Sorry you were incorrect', "That is correct"],
+                instantAnswerText: ['Sorry you were incorrect', "That is correct"],
                 instantAnswerClass: ['red', 'green'],
                 emotionType: ['images/sad.png', "images/happy.png"],
                 optionsBackground: ['rgba(200, 0, 0, 0.7)', "rgba(0, 250, 0, 0.3)"]
@@ -429,16 +436,76 @@ var UIController = (function() {
             selectedAnswer.previousElementSibling.style.backgroundColor = twoOptions.optionsBackground[index];
         },
 
-         resetDesign: function() {
-             domItems.quizOptionsWrapper.style.cssText = "";
-             domItems.instantAnswerContainer.style.opacity = "0";
-         },
+        resetDesign: function() {
+            domItems.quizOptionsWrapper.style.cssText = "";
+            domItems.instantAnswerContainer.style.opacity = "0";
+        },
 
         getFullName: function(currentPerson, storageQuestionList, admin) {
-            currentPerson.fullname.push(domItems.firstNameInput.value);
-            currentPerson.fullname.push(domItems.lastNameInput.value);
+            if(domItems.firstNameInput.value !== '' && domItems.lastNameInput.value !== '') {
+                if (!(domItems.firstNameInput.value === admin[0] && domItems.lastNameInput.value === admin[1])) {
+                    if(storageQuestionList.getQuestionCollection().length > 0) {
+                        //go to quiz section
+                        currentPerson.fullname.push(domItems.firstNameInput.value);
+                        currentPerson.fullname.push(domItems.lastNameInput.value);
 
+                        domItems.landingPageSection.style.display = 'none';
+                        domItems.quizPageSection.style.display = 'block';
+                    } else {
+                        alert('The quiz has not yet been set up by admin, please contact administrator');
+                    }
+                } else {
+                    //go to admin page
+                    domItems.landingPageSection.style.display = 'none';
+                    domItems.adminPanelSection.style.display = 'block';
+                }
+            } else {
+                alert('Please enter your first and last name');
+            }
+        },
+
+        finalResult: function(currentPerson) {
+            domItems.resultText.textContent = currentPerson.fullname[0] + " " + currentPerson.fullname[1] +
+                ', your final score is ' + currentPerson.score + ' congrats';
+
+            domItems.quizPageSection.style.display = 'none';
+            domItems.resultsPageContainer.style.display = 'block';
+        },
+
+        addResultOnPanel: function(userData) {
+            var userHTML;
+
+            domItems.resultsListWrapper.innerHTML = "";
+            for( var i = 0; i < userData.getPersonData().length; i++) {
+                var person = userData.getPersonData()[i];
+                userHTML = '<p class="person person-' + person.id + '">' +
+                    '<span class="person-' + person.id + '">'
+                    + person.firstName + ' ' + person.lastName + '  -  '+ person.score + ' points' +
+                    '</span><button id="delete-result-btn_' + person.id + '" class="delete-result-btn">Delete</button></p>';
+
+                domItems.resultsListWrapper.insertAdjacentHTML('afterbegin', userHTML);
+            }
+        },
+
+        deleteUserResults: function(event, userData) {
+            var getId, getPersonList, foundPerson;
+            if ('person-'.indexOf(event.target.id)) {
+                getId = parseInt(event.target.id.split('_')[1]);
+
+                getPersonList = userData.getPersonData();
+
+                getPersonList.splice(getId, 1);
+                userData.setPersonData(getPersonList);
+            }
+        },
+
+        clearUserResults: function(userData) {
+            if (userData.getPersonData() !== null && userData.getPersonData().length > 0) {
+                userData.removePersonData();
+                userData.setPersonData([]);
+            }
         }
+
     }
 
 
@@ -495,7 +562,8 @@ var controller = (function(quizCtrl, UICtrl) {
                 var nextQuestion = function(questionData, progress) {
                     if (quizCtrl.isFinished()) {
                         quizCtrl.addPerson();
-                        console.log("done");
+                        UICtrl.finalResult(quizCtrl.getCurrentPersonData);
+
                     } else {
                         UICtrl.resetDesign();
                         quizCtrl.getQuizProgress.questionIndex++;
@@ -511,10 +579,33 @@ var controller = (function(quizCtrl, UICtrl) {
         }
     });
 
+    selectedDomItems.lastNameInput.addEventListener('focus', function(e) {
+
+        selectedDomItems.lastNameInput.addEventListener('keypress', function(e) {
+            if(e.key === "Enter") {
+                UICtrl.getFullName(quizCtrl.getCurrentPersonData, quizCtrl.getQuestionLocalStorage, quizCtrl.getAdminFullName);
+            }
+        });
+    });
+
     selectedDomItems.startQuizBtn.addEventListener('click', function() {
         UICtrl.getFullName(quizCtrl.getCurrentPersonData, quizCtrl.getQuestionLocalStorage, quizCtrl.getAdminFullName);
+    });
 
+    UICtrl.addResultOnPanel(quizCtrl.getPersonLocalStorage);
 
-    })
+    selectedDomItems.resultsListWrapper.addEventListener('click', function(e) {
+        UICtrl.deleteUserResults(e, quizCtrl.getPersonLocalStorage);
+        UICtrl.addResultOnPanel(quizCtrl.getPersonLocalStorage);
+    });
+
+    selectedDomItems.clearResults.addEventListener('click', function() {
+        var deleteBoolean = confirm("Are you sure you want to delete all users' results?");
+        if (deleteBoolean) {
+            UICtrl.clearUserResults(quizCtrl.getPersonLocalStorage);
+            UICtrl.addResultOnPanel(quizCtrl.getPersonLocalStorage);
+        }
+
+    });
 
 })(quizController, UIController);
